@@ -7,8 +7,12 @@ from datetime import date
 
 # Load full pipeline (preprocess + model)
 
-MODEL_PATH = r"C:\Users\vijay\Downloads\random_forest_model.pkl"
-pipe = joblib.load(MODEL_PATH)   # the Pipeline you saved
+MODEL_URL = "https://raw.githubusercontent.com/<user>/<repo>/<branch>/random_forest_model.pkl"
+
+with tempfile.TemporaryDirectory() as tmpdir:
+    tmp_path = Path(tmpdir) / "random_forest_model.pkl"
+    urllib.request.urlretrieve(MODEL_URL, tmp_path)
+    pipe = joblib.load(tmp_path)
 
 st.title("🏡 Melbourne (Australia) House Price Prediction")
 st.write("Enter property details to predict price:")
@@ -170,3 +174,4 @@ if st.button("Predict Price"):
         st.error(f"Prediction failed: {e}")
         st.write("Pipeline expects these columns:", sorted(list(expected_cols)))
         st.write("You provided columns:", list(input_df.columns))
+
