@@ -8,12 +8,16 @@ from pathlib import Path
 
 # Load full pipeline (preprocess + model)
 
-MODEL_URL = "https://raw.githubusercontent.com/<user>/<repo>/<branch>/random_forest_model.pkl"
+HERE = Path(__file__).resolve().parent
+MODEL_PATH = "random_forest_model.pkl"   # <-- put the file in the repo root next to the script
 
-with tempfile.TemporaryDirectory() as tmpdir:
-    tmp_path = Path(tmpdir) / "random_forest_model.pkl"
-    urllib.request.urlretrieve(MODEL_URL, tmp_path)
-    pipe = joblib.load(tmp_path)
+# Optional: helpful message if the file is missing
+if not MODEL_PATH.exists():
+    st.error(f"Model file not found at: {MODEL_PATH}")
+    st.stop()
+
+# Load the full pipeline (preprocess + model)
+pipe = joblib.load(MODEL_PATH)
 
 st.title("🏡 Melbourne (Australia) House Price Prediction")
 st.write("Enter property details to predict price:")
@@ -175,5 +179,6 @@ if st.button("Predict Price"):
         st.error(f"Prediction failed: {e}")
         st.write("Pipeline expects these columns:", sorted(list(expected_cols)))
         st.write("You provided columns:", list(input_df.columns))
+
 
 
