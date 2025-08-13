@@ -8,8 +8,8 @@ from pathlib import Path
 
 # Load full pipeline (preprocess + model)
 
-HERE = Path(__file__).resolve().parent
-MODEL_PATH = "random_forest_model.pkl"   # <-- put the file in the repo root next to the script
+HERE = Path(__file__).resolve().parent           # folder where this script lives
+MODEL_PATH = HERE / "random_forest_model.pkl"    # put the .pkl next to this script
 
 # Optional: helpful message if the file is missing
 if not MODEL_PATH.exists():
@@ -179,6 +179,7 @@ if st.button("Predict Price"):
         st.error(f"Prediction failed: {e}")
         st.write("Pipeline expects these columns:", sorted(list(expected_cols)))
         st.write("You provided columns:", list(input_df.columns))
+
 
 
 
