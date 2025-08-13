@@ -3,7 +3,8 @@ import pandas as pd
 import numpy as np
 import joblib
 from datetime import date
-
+import tempfile, urllib.request
+from pathlib import Path
 
 # Load full pipeline (preprocess + model)
 
@@ -174,4 +175,5 @@ if st.button("Predict Price"):
         st.error(f"Prediction failed: {e}")
         st.write("Pipeline expects these columns:", sorted(list(expected_cols)))
         st.write("You provided columns:", list(input_df.columns))
+
 
