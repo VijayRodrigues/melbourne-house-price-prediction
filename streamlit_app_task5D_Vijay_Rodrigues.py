@@ -11,13 +11,13 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent           # folder where this script lives
 MODEL_PATH = HERE / "random_forest_model.pkl"    # put the .pkl next to this script
 
-# Optional: helpful message if the file is missing
 if not MODEL_PATH.exists():
-    st.error(f"Model file not found at: {MODEL_PATH}")
+    st.error(f"Model file not found at: {MODEL_PATH}\n\n"
+             "➡️ Make sure 'random_forest_model.pkl' is committed to the repo alongside this script.\n"
+             "If it's >100MB, use Git LFS.")
     st.stop()
 
-# Load the full pipeline (preprocess + model)
-pipe = joblib.load(MODEL_PATH)
+pipe = joblib.load(MODEL_PATH)  # the Pipeline you saved
 
 st.title("🏡 Melbourne (Australia) House Price Prediction")
 st.write("Enter property details to predict price:")
@@ -179,6 +179,7 @@ if st.button("Predict Price"):
         st.error(f"Prediction failed: {e}")
         st.write("Pipeline expects these columns:", sorted(list(expected_cols)))
         st.write("You provided columns:", list(input_df.columns))
+
 
 
 
